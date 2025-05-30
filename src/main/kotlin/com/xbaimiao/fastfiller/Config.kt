@@ -23,13 +23,9 @@ object Config {
         it[0].toInt() to it[1].toInt()
     }
 
-
-    val whiteListBlock by lazy {
+    val blackListBlock by lazy {
         val list = ArrayList<Material>()
-        for (it in FastFiller.conf.getStringList("whiteListBlock")) {
-            if (it.equals("ALL", ignoreCase = true)) {
-                return@lazy Material.entries
-            }
+        for (it in FastFiller.conf.getStringList("blackListBlock")) {
             if (it.endsWith("*")) {
                 val math = it.substring(0, it.length - 1)
                 list.addAll(Material.entries.filter { it.name.contains(math) })
@@ -40,21 +36,6 @@ object Config {
         list
     }
 
-    val containerBlock by lazy {
-        val list = ArrayList<Material>()
-        for (it in FastFiller.conf.getStringList("containerBlock")) {
-            if (it.equals("ALL", ignoreCase = true)) {
-                return@lazy Material.entries.filter { material -> material.isBlock }
-            }
-            if (it.endsWith("*")) {
-                val math = it.substring(0, it.length - 1)
-                list.addAll(Material.entries.filter { it.name.contains(math) })
-            } else {
-                list.add(XMaterial.matchXMaterial(it).get().parseMaterial()!!)
-            }
-        }
-        list
-    }
     val displayLore = displaySection.getStringList("lore").colored()
 
     val defaultItem by lazy {
@@ -69,5 +50,4 @@ object Config {
             }
         }
     }
-
 }

@@ -7,7 +7,7 @@ import com.xbaimiao.easylib.util.giveItem
 import com.xbaimiao.easylib.util.isAir
 import com.xbaimiao.fastfiller.FastFiller
 import com.xbaimiao.fastfiller.InventoryUtil.getInventoryVolume
-import com.xbaimiao.fastfiller.Config
+import com.xbaimiao.fastfiller.core.hook.Hook
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
@@ -129,8 +129,8 @@ class ContainerFillerUI(override val section: ConfigurationSection) : FillerUI()
                 player.sendLang("addItem-noItem")
                 return@onClick
             }
-            if (item.type !in Config.containerBlock || item.itemMeta?.hasLore() == true || item.itemMeta?.hasDisplayName() == true) {
-                player.sendLang("addItem-noType")
+            if (!Hook.isMagic(item)) {
+                player.sendLang("addItem-not-magic")
                 return@onClick
             }
             if (!container.canAddItem(item.type, item.amount)) {

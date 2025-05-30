@@ -37,39 +37,16 @@ checkPlotSquared: true
 # 是否检测BentoBox
 checkBentoBox: true
 
-# 可以被清理的方块
-whiteListBlock:
-  - STONE
-  - REDSTONE_ORE
-  - IRON_ORE
-  - DIAMOND_ORE
-  - GOLD_ORE
-  - COPPER_ORE
-  - GRASS_BLOCK
-  - GRASS
-  - COAL_ORE
-  - DIRT
-  - GRAVEL
-  - ANDESITE
-  - LAPIS_ORE
-  - DIORITE
-  - GRANITE
-  - COBBLESTONE
-# 可放入容器的方块
-containerBlock:
-  - STONE
-  - REDSTONE_ORE
-  - IRON_ORE
-  - DIAMOND_ORE
-  - GOLD_ORE
-  - COPPER_ORE
-  - GRASS_BLOCK
-  - GRASS
-  - COAL_ORE
-  - DIRT
-  - GRAVEL
-  - ANDESITE
-  - LAPIS_ORE
-  - DIORITE
-  - GRANITE
-  - COBBLESTONE
+# 无法被清理的方块（黑名单）
+blackListBlock:
+  - BEDROCK
+  - OBSIDIAN
+  - COMMAND_BLOCK
+  - CHAIN_COMMAND_BLOCK
+  - REPEATING_COMMAND_BLOCK
+  - END_PORTAL_FRAME
+  - END_PORTAL
+  - NETHER_PORTAL
+  - BARRIER
+  - STRUCTURE_BLOCK
+  - STRUCTURE_VOID

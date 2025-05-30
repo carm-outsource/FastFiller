@@ -6,6 +6,7 @@ import com.xbaimiao.fastfiller.core.BlockCompare
 import com.xbaimiao.fastfiller.core.workload.PlaceBlock
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.block.Container
 import org.bukkit.entity.Player
 
@@ -14,7 +15,11 @@ import org.bukkit.entity.Player
  * @date: 2022年03月17日 20:10
  * @description:
  */
-class ClearBlocks(private val whiteList: List<Material>, private val player: Player) : VolumeFiller {
+class ClearBlocks(
+    private val list: List<Material>,
+    private val blacklist: Boolean,
+    private val player: Player
+) : VolumeFiller {
 
     override fun fill(cornerA: Location, cornerB: Location, material: Material) {
         if (!(cornerA.world == cornerB.world && cornerA.world != null)) {
@@ -29,15 +34,26 @@ class ClearBlocks(private val whiteList: List<Material>, private val player: Pla
             for (y in box.minY..box.maxY) {
                 for (z in box.minZ..box.maxZ) {
                     val block = world.getBlockAt(x, y, z)
-                    if (block.state is Container || block.type !in whiteList) {
-                        continue
-                    }
+                    if (!cleanable(block)) continue
+
                     val placeBlock = PlaceBlock(world.uid, x, y, z, material)
                     workloadRunnable.addWorkload(placeBlock)
                 }
             }
         }
         FastFiller.dataContainer.setInFill(player, false)
+    }
+
+    fun cleanable(block: Block): Boolean {
+        if (block.state is Container) {
+            return false
+        }
+        if (blacklist && block.type in list) {
+            return false
+        } else if (!blacklist && block.type !in list) {
+            return false
+        }
+        return true
     }
 
 }

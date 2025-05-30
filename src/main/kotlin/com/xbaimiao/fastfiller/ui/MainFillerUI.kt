@@ -42,7 +42,7 @@ class MainFillerUI(
                     player.sendLang("filler-infill")
                     return@confirmMenu
                 }
-                clear(player, Config.whiteListBlock)
+                clear(player, Config.blackListBlock, true)
             }
         }
 
@@ -189,7 +189,7 @@ class MainFillerUI(
         return Pair(location1, location2)
     }
 
-    private fun clear(player: Player, whitelist: List<Material>) {
+    private fun clear(player: Player, list: List<Material>, blacklist: Boolean = false) {
         if (CoolDown.checkIsCoolDown(player.name)) {
             return
         }
@@ -199,7 +199,7 @@ class MainFillerUI(
         player.closeInventory()
         submit(async = true) {
             FastFiller.dataContainer.setInFill(player, true)
-            ClearBlocks(whitelist, player).fill(location.first, location.second, Material.AIR)
+            ClearBlocks(list, blacklist, player).fill(location.first, location.second, Material.AIR)
         }
     }
 
